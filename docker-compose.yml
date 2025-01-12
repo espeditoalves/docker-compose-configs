@@ -1,0 +1,12 @@
+services:
+  pyspark_notebook:
+    image: jupyter/pyspark-notebook:spark-3.4.1
+    container_name: pyspark_with_customizations
+    ports:
+      - "8888:8888"
+    volumes:
+      - .:/home/jovyan/work # Monta uma pasta local como diretório de trabalho
+    environment:
+      - JUPYTER_ENABLE_LAB=yes
+    user: root
+
