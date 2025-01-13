@@ -1,5 +1,3 @@
-
-
 - [1. docker-compose-configs](#1-docker-compose-configs)
   - [1.1. Objetivo](#11-objetivo)
   - [Baixando docker](#baixando-docker)
@@ -25,8 +23,10 @@ Este repositório é dedicado a armazenar as configurações e informações rel
 O repositório contém templates, exemplos e ajustes personalizados para configuração de containers e orquestração utilizando o Docker Compose. A ideia é fornecer uma estrutura reutilizável para qualquer projeto, permitindo facilmente iniciar e gerenciar containers, como bancos de dados, serviços de backend, e aplicações web.
 
 ## Baixando docker
+1. Baixe o `docker-desktop`
+2. será necessário instalar o WSL: https://github.com/microsoft/WSL/releases, importe pegar a versão mais atualizada, baixando pelo terminal não dava certo.
+3. link de referência: https://stackoverflow.com/questions/78029799/wsl-cannot-upgrade-to-wsl2-as-class-not-registered-error-arises
 
-Use o arquivo wsl.... 
 ## 1.2. Estrutura do Repositório
 
 - `docker-compose.yml`: Arquivo principal que contém a definição dos serviços, volumes, redes e configurações necessárias para rodar os containers.
