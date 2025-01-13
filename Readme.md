@@ -2,6 +2,7 @@
 
 - [1. docker-compose-configs](#1-docker-compose-configs)
   - [1.1. Objetivo](#11-objetivo)
+  - [Baixando docker](#baixando-docker)
   - [1.2. Estrutura do Repositório](#12-estrutura-do-repositório)
   - [1.3. Construção do Ambiente Exploratório](#13-construção-do-ambiente-exploratório)
     - [1.3.1. Docker Compose](#131-docker-compose)
@@ -23,6 +24,9 @@ Este repositório é dedicado a armazenar as configurações e informações rel
 
 O repositório contém templates, exemplos e ajustes personalizados para configuração de containers e orquestração utilizando o Docker Compose. A ideia é fornecer uma estrutura reutilizável para qualquer projeto, permitindo facilmente iniciar e gerenciar containers, como bancos de dados, serviços de backend, e aplicações web.
 
+## Baixando docker
+
+Use o arquivo wsl.... 
 ## 1.2. Estrutura do Repositório
 
 - `docker-compose.yml`: Arquivo principal que contém a definição dos serviços, volumes, redes e configurações necessárias para rodar os containers.
@@ -35,9 +39,9 @@ O repositório contém templates, exemplos e ajustes personalizados para configu
 
 ### 1.3.1. Docker Compose
 
-Essa padronização não usa o Dockerfile, para verificar como seria com dockerfile vide: `link`
+Essa padronização **`não usa o Dockerfile`**, para verificar como seria com dockerfile vide os arquivos [dockerfile](/container_com_docker_file/dockerfile.txt) e [docker-compose.yml](/container_com_docker_file/docker-compose.yml)
 
-Para o passo a passo a seguir é necessário ter na nessa pasta os arquivos  [docker-compose up](docker-compose.yml) e o arquivo [customizations.sh](/scripts/customizations.sh).
+Para o passo a passo a seguir é necessário ter na nessa pasta os arquivos  [docker-compose.yml](docker-compose.yml) e o arquivo [customizations.sh](/scripts/customizations.sh).
 
 - `docker-compose.yml`: Baixar e gerencia os serviços e imagens
 - `customizations.sh`: Realizar as principais customizações, como por exemplo a instalação do poetry, e instalação do **driver JDBC do PostgreSQL**.
@@ -46,14 +50,29 @@ Para o passo a passo a seguir é necessário ter na nessa pasta os arquivos  [do
 
 1. **Iniciar o Docker Compose:** `docker-compose up`
 2. **Verificar os containers em execução:** `docker ps`
-3. **Acessar o bash do container:** `docker exec -it <container> bash`
+3. **Acessar o bash do container:** `docker exec -it <container_name(definido no docker-compose)> bash`
 
     ```bash
     # Após pegar o nome do container com docker ps
     docker exec -it pyspark_with_customizations bash
     ```
 4. **Instalar as customizações:** `sh customizations.sh`
-5. **Definir caminho para o poetry funcionar:** `export PATH="$HOME/.local/bin:$PATH"`
+5. **Definir caminho para o poetry funcionar na sessão atual:**
+```bash
+export PATH="$HOME/.local/bin:$PATH"
+```
+Em seguida é necessário definir caminho para o poetry funcionar de forma permanente. Execute o seguinte comando no terminal do seu container para adicionar a linha `export PATH="$HOME/.local/bin:$PATH"` ao final do arquivo **`.bashrc`**:
+
+```bash
+# Definir caminho para o poetry funcionar de forma permanente:
+echo 'export PATH="$HOME/.local/bin:$PATH"' >> /home/jovyan/.bashrc
+```
+- O `echo` escreve a linha desejada no terminal.
+- O `>>` adiciona (em vez de sobrescrever) o conteúdo ao final do arquivo.
+
+Após adicionar a linha ao **.bashrc**, toda vez que o container for iniciado e uma sessão do Bash for aberta, a variável **PATH** será configurada automaticamente.
+
+O arquivo **.bashrc** é um script de configuração executado automaticamente sempre que uma nova sessão do Bash é iniciada para o usuário. Ele contém configurações e variáveis de ambiente específicas do usuário. Adicionar o comando ao .bashrc garante que as alterações persistam entre as sessões, sem que você precise reconfigurar manualmente.
 
 #### 1.3.1.2. Parar o container do jeito que está:
 1. **Parar todos os containers\serviços já definidos no arquivo `docker-compose.yml`:** `docker-compose stop`

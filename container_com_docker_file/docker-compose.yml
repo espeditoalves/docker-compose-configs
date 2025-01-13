@@ -1,15 +1,18 @@
+version: '3.8'
+
 services:
-  pyspark_notebook:
-    image: jupyter/pyspark-notebook:spark-3.4.1
-    container_name: pyspark_with_customizations # Aqui pode ser definido o nome
+  ambiente_exploratorio:
+    build:
+      context: .
+      dockerfile: Dockerfile  # Referência ao seu Dockerfile
     ports:
-      - "8888:8888"
+      - "8888:8888"  # Porta para o Jupyter Notebook
     volumes:
-      - .:/home/jovyan/work  # Monta uma pasta local como diretório de trabalho
+      # - ./work:/home/jovyan/work  # Mapeia a pasta local 'work' para persistência
+      - .:/home/jovyan/work
+
     environment:
       - JUPYTER_ENABLE_LAB=yes
-    user: root
-    working_dir: /home/jovyan/work  # Define o diretório de trabalho padrão no container
 
   postgres_db:
     image: postgres:13  # Use a versão desejada do PostgreSQL
